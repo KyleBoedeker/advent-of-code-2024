@@ -1,5 +1,3 @@
-use regex::Regex;
-use std::collections::HashMap;
 use std::io::{self, BufRead};
 
 fn main() {
