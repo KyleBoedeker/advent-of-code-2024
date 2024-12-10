@@ -1,6 +1,6 @@
 use regex::Regex;
-use std::io::{self, BufRead};
 use std::collections::HashMap;
+use std::io::{self, BufRead};
 
 fn main() {
     // "\d+" captures one or more digit chars
@@ -15,7 +15,8 @@ fn main() {
         if let Some(captures) = re.captures(&line) {
             v1.push(captures[1].parse().unwrap());
             h2.entry(captures[2].parse().unwrap())
-                .and_modify(|v| *v += 1).or_insert(1);
+                .and_modify(|v| *v += 1)
+                .or_insert(1);
         }
     }
 
