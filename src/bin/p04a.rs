@@ -1,9 +1,6 @@
 use std::io::{self, BufRead};
 
-// each direction letters could be in
-// const directions: [[i32; 2]; 8] = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
-
-// return # of valid "XMAS" words detected starting at the x-y index provided
+// return whether or not the XY index and direction provided lead to "XMAS"
 fn check(
     puz: &Vec<String>,
     x: usize,
