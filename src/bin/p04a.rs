@@ -13,29 +13,29 @@ fn check(
     ydir: &Option<bool>,
 ) -> bool {
     let c = puz[y].chars().nth(x).unwrap();
-    if c == "XMAS".chars().nth(xmas_idx).unwrap() {
-        if c == 'S' {
-            return true;
-        }
-        if (x == 0 && *xdir == Some(false)) || (x == puz.len() - 1 && *xdir == Some(true)) {
-            return false;
-        }
-        if (y == 0 && *ydir == Some(false)) || (y == puz.len() - 1 && *ydir == Some(true)) {
-            return false;
-        }
-        let xnew = match *xdir {
-            Some(true) => x + 1,
-            Some(false) => x - 1,
-            None => x,
-        };
-        let ynew = match *ydir {
-            Some(true) => y + 1,
-            Some(false) => y - 1,
-            None => y,
-        };
-        return check(puz, xnew, ynew, xmas_idx + 1, xdir, ydir);
+    if c != "XMAS".chars().nth(xmas_idx).unwrap() {
+        return false;
     }
-    return false;
+    if c == 'S' {
+        return true;
+    }
+    if (x == 0 && *xdir == Some(false)) || (x == puz.len() - 1 && *xdir == Some(true)) {
+        return false;
+    }
+    if (y == 0 && *ydir == Some(false)) || (y == puz.len() - 1 && *ydir == Some(true)) {
+        return false;
+    }
+    let xnew = match *xdir {
+        Some(true) => x + 1,
+        Some(false) => x - 1,
+        None => x,
+    };
+    let ynew = match *ydir {
+        Some(true) => y + 1,
+        Some(false) => y - 1,
+        None => y,
+    };
+    return check(puz, xnew, ynew, xmas_idx + 1, xdir, ydir);
 }
 
 fn main() {
@@ -55,24 +55,12 @@ fn main() {
     ];
     for y in 0..lines.len() {
         for x in 0..lines.len() {
-            for (xdir, ydir) in directions.iter() {
-                if check(&lines, x, y, 0, xdir, ydir) {
-                    xmas_count += 1;
-                    let xprint = match xdir {
-                        Some(false) => -1,
-                        None => 0,
-                        Some(true) => 1,
-                    };
-                    let yprint = match ydir {
-                        Some(false) => -1,
-                        None => 0,
-                        Some(true) => 1,
-                    };
-                    println!("x={}, y={}, xdir={}, ydir={}", x, y, xprint, yprint);
-                }
-            }
+            xmas_count += directions
+                .iter()
+                .map(|(xdir, ydir)| check(&lines, x, y, 0, xdir, ydir) as u32)
+                .sum::<u32>()
         }
     }
 
-    println!("{}", xmas_count);
+    println!("# of \"XMAS\" in input = {}", xmas_count);
 }
