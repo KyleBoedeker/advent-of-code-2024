@@ -13,6 +13,7 @@ fn fits_ordering(pages: &Vec<i32>, rules: &Vec<(i32, i32)>) -> bool {
     return true;
 }
 
+// make a pass at sorting the vec (doesn't fix without calling it a bunch)
 fn fix_ordering(pages: &mut Vec<i32>, rules: &Vec<(i32, i32)>) {
     for (r1, r2) in rules {
         if let Some(idx1) = pages.iter().position(|v| v == r1) {
@@ -43,6 +44,7 @@ fn main() {
     while let Some(Ok(line)) = lines.next() {
         let mut pages: Vec<i32> = line.split(',').map(|x| x.parse::<i32>().unwrap()).collect();
         if !fits_ordering(&pages, &ordering_rules) {
+            // ooga-booga a few times till the page is definitely sorted (I hate sorting)
             for _ in 0..pages.len() {
                 fix_ordering(&mut pages, &ordering_rules);
             }
