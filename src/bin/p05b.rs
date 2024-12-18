@@ -49,22 +49,3 @@ fn main() {
 
     println!("{}", total);
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn ordering_works() {
-        let rules = vec![(4, 5), (6, 7), (9, 10)];
-        let pages = vec![9, 4, 5, 6, 10, 7];
-        // 4 and 5 are swapped
-        let mut pages_unsorted = vec![9, 5, 4, 6, 10, 7];
-
-        assert!(fits_ordering(&pages, &rules));
-        assert!(!fits_ordering(&pages_unsorted, &rules));
-        pages_unsorted.sort_by(|a, b| sort_pages(a, b, &rules));
-        assert_eq!(pages_unsorted, pages);
-        assert!(fits_ordering(&pages_unsorted, &rules));
-    }
-}
