@@ -26,7 +26,7 @@ fn check(puz: &Vec<String>, x: usize, y: usize) -> bool {
             return true;
         }
     }
-    return false;
+    false
 }
 
 fn main() {

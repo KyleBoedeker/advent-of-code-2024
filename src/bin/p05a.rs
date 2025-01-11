@@ -10,7 +10,7 @@ fn fits_ordering(pages: &Vec<i32>, rules: &Vec<(i32, i32)>) -> bool {
             }
         }
     }
-    return true;
+    true
 }
 
 fn main() {
@@ -19,7 +19,7 @@ fn main() {
     let mut ordering_rules: Vec<(i32, i32)> = vec![];
 
     while let Some(Ok(line)) = lines.next() {
-        if line == "" {
+        if line.is_empty() {
             break;
         }
         let (a, b) = line.split_once('|').unwrap();
@@ -30,7 +30,7 @@ fn main() {
     while let Some(Ok(line)) = lines.next() {
         let pages: Vec<i32> = line.split(',').map(|x| x.parse::<i32>().unwrap()).collect();
         if fits_ordering(&pages, &ordering_rules) {
-            total += pages.iter().nth(pages.len() / 2).unwrap();
+            total += pages.get(pages.len() / 2).unwrap();
         }
     }
 

@@ -32,7 +32,7 @@ fn check(
         Some(false) => y - 1,
         None => y,
     };
-    return check(puz, xnew, ynew, xmas_idx + 1, xdir, ydir);
+    check(puz, xnew, ynew, xmas_idx + 1, xdir, ydir)
 }
 
 fn main() {

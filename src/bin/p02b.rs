@@ -17,7 +17,7 @@ fn is_report_safe(report: &Vec<i32>) -> bool {
             return false;
         }
     }
-    return true;
+    true
 }
 
 fn main() {
