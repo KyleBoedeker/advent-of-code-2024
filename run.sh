@@ -22,4 +22,4 @@ num=${prob:0:2}
 
 # Will evaluate something similar to this:
 # < data/01_example.txt cargo run --bin p01b
-< data/${num}_${mode}.txt cargo run --bin p${prob}
+< data/${num}_${mode}.txt cargo run --release --bin p${prob}
