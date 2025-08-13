@@ -9,12 +9,15 @@ struct Point {
 
 impl Point {
     fn antinode(&self, other: &Point) -> Point {
-        // return the antinode of a given point relative to another
-        return Point { row: other.row - self.row + other.row, col: other.col - self.col + other.col};
+        // return the antinode of a given point relative to another (project self through other)
+        Point {
+            row: other.row - self.row + other.row,
+            col: other.col - self.col + other.col,
+        }
     }
 
     fn bounded_by(&self, max_size: i32) -> bool {
-        return self.col >= 0 && self.row >= 0 && self.col < max_size && self.row < max_size;
+        self.col >= 0 && self.row >= 0 && self.col < max_size && self.row < max_size
     }
 }
 
@@ -28,10 +31,12 @@ fn main() {
             if val == '.' {
                 continue;
             }
-            let positions = antenna_positions.entry(val).or_insert(vec![]);
-            positions.push(Point { row: row as i32, col: col as i32});
+            let positions = antenna_positions.entry(val).or_default();
+            positions.push(Point {
+                row: row as i32,
+                col: col as i32,
+            });
         }
-        // update row_counter
         puzzle_size += 1;
     }
 
@@ -41,34 +46,17 @@ fn main() {
             for p2 in positions.iter() {
                 let antinode = p1.antinode(p2);
                 if !antinode.bounded_by(puzzle_size) || positions.contains(&antinode) {
-                    continue
+                    continue;
                 }
                 antinode_positions.insert(p1.antinode(p2));
             }
         }
     }
 
-    println!("# of unique antinode positions = {}", antinode_positions.len());
-
-    // Debug to show puzzle with antinodes projected
-    for row in 0..puzzle_size {
-        for col in 0..puzzle_size {
-            let p = Point { row, col };
-
-            let mut c = None;
-            for (ac, positions) in antenna_positions.iter() {
-                if positions.contains(&p) {
-                    c = Some(*ac);
-                    break
-                }
-            }
-            if c.is_none() && antinode_positions.contains(&p) {
-                c = Some('#');
-            }
-            print!("{}", c.unwrap_or('.'));
-        }
-        println!();
-    }
+    println!(
+        "# of unique antinode positions = {}",
+        antinode_positions.len()
+    );
 }
 
 #[cfg(test)]
@@ -113,6 +101,5 @@ mod tests {
 
         assert_eq!(tx1.antinode(&tx0), Point { row: -1, col: 0 });
         assert_eq!(tx0.antinode(&tx1), Point { row: 2, col: 0 });
-
     }
 }
