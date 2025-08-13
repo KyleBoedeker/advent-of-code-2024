@@ -23,7 +23,7 @@ fn is_calibratable(values: &Vec<u64>, calibration_target: u64) -> bool {
         sieve = new_sieve;
     }
 
-    return sieve.iter().any(|v| *v == calibration_target);
+    sieve.contains(&calibration_target)
 }
 
 fn main() {
@@ -34,7 +34,8 @@ fn main() {
     let mut lines = io::stdin().lock().lines();
     while let Some(Ok(line)) = lines.next() {
         // get all nums as an array
-        let mut nums: Vec<u64> = re.find_iter(&line)
+        let mut nums: Vec<u64> = re
+            .find_iter(&line)
             .filter_map(|m| m.as_str().parse().ok())
             .collect();
 
@@ -44,7 +45,6 @@ fn main() {
         if is_calibratable(&nums, calibration_target) {
             total_calibration_result += calibration_target;
         }
-
     }
 
     println!("total_calibration_result = {}", total_calibration_result);

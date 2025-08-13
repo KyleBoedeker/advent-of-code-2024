@@ -118,7 +118,5 @@ fn main() {
         }
     }
 
-    println!(
-        "# of positions where block can be placed: {num_valid_blocker_positions}"
-    );
+    println!("# of positions where block can be placed: {num_valid_blocker_positions}");
 }
