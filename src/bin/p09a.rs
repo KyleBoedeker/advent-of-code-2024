@@ -1,56 +1,59 @@
+use std::collections::HashSet;
 use std::io::{self, BufRead};
-use std::collections::VecDeque;
-
-#[derive(Debug)]
-struct FileBlock {
-    id: usize,
-    isfree: bool,
-    start: usize,
-    size: usize,
-}
+use std::iter;
 
 fn main() {
     let line: String = io::stdin().lock().lines().next().unwrap().unwrap();
 
-
-    let mut start = 0;
-    let mut deq = VecDeque::new();
+    let mut puz: Vec<i32> = Vec::with_capacity(line.len() * 9);
 
     for (idx, c) in line.chars().enumerate() {
         let isfree: bool = (idx % 2) == 1;
         let size = c.to_digit(10).unwrap() as usize;
-        let id = (idx + 1) / 2;
-        deq.push_back(FileBlock { id, isfree, start, size } );
-        start += size;
+        let id = ((idx) / 2) as i32;
+        if isfree {
+            puz.extend(iter::repeat_n(-1, size));
+        } else {
+            puz.extend(iter::repeat_n(id, size));
+        }
     }
 
-    // compare first element to last element
-    // if front can fit back, then sub from back and remove the back
-    // elif the back is too big, then pop the front
-    let mut id_crc = 0;
+    let mut front = 0;
+    let mut rear = puz.len() - 1;
     loop {
-        let mut front = deq.front_mut().unwrap();
-
-        if !front.isfree {
-            id_crc += front.id * front.start;
+        if front == rear {
+            break;
         }
-        if deq.len() <= 1 {
-            break
-        }
-        if !front.isfree {
+        // end of puzzle is "blank"
+        if puz[rear] == -1 {
+            rear -= 1;
             continue;
         }
-        // more elements!
-        let mut back = deq.back_mut().unwrap();
-        if 
-
-        if  {
-
-            
+        if puz[front] != -1 {
+            front += 1;
+            continue;
         }
-        break
+        // else "rear" is now a real element
+        // and the "front" is now blank
+        puz[front] = puz[rear];
+        puz[rear] = -1;
+        front += 1;
     }
 
-    dbg!(&deq);
-    println!("{}", deq.len());
+    let mut checksum: u64 = 0;
+    for (idx, block) in puz.iter().enumerate() {
+        if *block == -1 {
+            continue;
+        }
+        checksum += (*block as u64) * (idx as u64);
+    }
+    for block in puz.iter() {
+        if *block == -1 {
+            print!(".");
+        } else {
+            print!("{}", block);
+        }
+    }
+    println!();
+    println!("{}", checksum)
 }
