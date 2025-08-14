@@ -1,4 +1,3 @@
-use std::collections::HashSet;
 use std::io::{self, BufRead};
 use std::iter;
 
@@ -24,11 +23,12 @@ fn main() {
         if front == rear {
             break;
         }
-        // end of puzzle is "blank"
+        // end of puzzle is blank
         if puz[rear] == -1 {
             rear -= 1;
             continue;
         }
+        // not an empty space at the front of puzzle
         if puz[front] != -1 {
             front += 1;
             continue;
@@ -47,13 +47,5 @@ fn main() {
         }
         checksum += (*block as u64) * (idx as u64);
     }
-    for block in puz.iter() {
-        if *block == -1 {
-            print!(".");
-        } else {
-            print!("{}", block);
-        }
-    }
-    println!();
     println!("{}", checksum)
 }
