@@ -31,7 +31,7 @@ impl Stone {
             return (left.parse().unwrap(), Some(right.parse().unwrap()));
         }
         // rule 3: multiply by 2024
-        return (value * 2024, None);
+        (value * 2024, None)
     }
 }
 
@@ -63,7 +63,7 @@ impl StoneVec {
         }
         // add the missing stones
         for (val, _count) in value_counts.iter() {
-            if self.stones.iter().find(|s| s.value == *val).is_none() {
+            if !self.stones.iter().any(|s| s.value == *val) {
                 self.stones.push(Stone::new(*val));
             }
         }
