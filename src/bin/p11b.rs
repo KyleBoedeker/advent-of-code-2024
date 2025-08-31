@@ -1,11 +1,11 @@
 use std::{
-    collections::HashMap,
     io::{self, BufRead},
     mem,
     time::Instant,
 };
 
 use regex::Regex;
+use rustc_hash::FxHashMap;
 
 fn get_transition_values(value: u64) -> (u64, Option<u64>) {
     // rule 1: replace 0 with 1
@@ -42,7 +42,7 @@ fn main() {
     // next available stone index (used to index other arrays)
     let mut next_stone_idx: usize = 0;
     // lookup a stone's index by value (used to index other arrays)
-    let mut stone_idx_lookup: HashMap<u64, usize> = HashMap::default();
+    let mut stone_idx_lookup = FxHashMap::default();
     // Using fixed-size arrays since there _shouldn't_ be more than ~4k stones from my experiments
     // stone counts is the pre-start-of-transition counts, stone_counts_new is used during the transition
     let mut stone_counts = [0u64; 4096];
